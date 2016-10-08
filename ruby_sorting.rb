@@ -32,7 +32,7 @@ def selection_sort(arr)
   arr
 end
 
-def insertion_sort(arr)
+def insertion_sort(arr) # sorted portion and unsorted portion
   for i in 1..arr.length-1
     element = arr[i]
     j = i
@@ -46,7 +46,7 @@ def insertion_sort(arr)
 end
 
 def partition(arr, startdex, enddex) #for quicksort
-  pivot = arr[enddex]
+  pivot = arr[enddex] # elements less than pivot will be to the left of the pivot, greater than --> to the right
   partition_index = startdex
   for i in startdex..enddex - 1
     if arr[i] <= pivot
