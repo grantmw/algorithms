@@ -33,6 +33,15 @@ class LinkList
 		self
 	end
 
+	def add(node) #adds a node to the list, not just a value, will bring following nodes with
+		curr_node = @head
+		while curr_node.next_node
+			curr_node = curr_node.next_node
+		end
+		curr_node.next_node = node
+		self
+	end
+
 
 	def delete(node) #take val from next node, then delete next node #main issue: the current node that is deleted will become next node, and next node will be skipped in loop
 		p "delete"
@@ -230,19 +239,65 @@ class LinkList
 		true
 	end
 	#opt: only half of list needs to be compaired to the half of the reverse list
+
+
+	# 2.7 - Find Intersecting Node
+	# if lists combine, they will have the same ending nodes
+	# check length, delete head of longer list and check if nodes are equal
+	def self.find_intersection(list1,list2)
+
+		n1 = list1.head
+		n2 = list2.head
+
+		match = lambda do |node1, node2|
+			if node1 == node2
+				return node1
+			end
+		end
+
+		while n2 && n1
+			if match.call(n1, n2)
+				return n1
+			end
+			if list1.length > list2.length
+				n1 = n1.next_node
+			elsif list1.length < list2.length
+				n2 = n1.next_node
+			else
+				n1 = n1.next_node
+				n2 = n2.next_node
+			end
+			false
+		end
+
+		if list1.head = list2.head
+			return list1.head
+		end
+
+
+
+	end
 end
-# driver test for sum
+# driver test for 2.5
 # test2 = LinkList.new(6).push(7).push(8).push(9)
 # test2.display
 # test3 = LinkList.new(1).push(2).push(3)
 # test3.display
 # LinkList.sum(test2,test3)
 
+a = Node.new(11)
+b = Node.new(12)
+c = Node.new(13)
 test1 = LinkList.new(1)
 test1.push(2)
 test1.push(3)
-test1.push(2)
-test1.push(9)
+test2 = LinkList.new(4)
+test2.push(5)
+test2.push(6)
+
+test1.add(a).add(b).add(c)
+test2.add(a)
+
 test1.display
-p test1.is_palindrome
-test1.display
+test2.display
+p LinkList.find_intersection(test1,test2)
