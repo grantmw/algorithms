@@ -25,7 +25,7 @@ end
 - sum two previous, reset both previous numbers to one before, and current value aka sum
 - return sum
 =end
-
+#0,1,1,2,3,5,8,13
 def fib_i(n)
 	if n == 0
 		return 0
@@ -89,5 +89,21 @@ end
 	
 =end
 
+#continuously find gcd of two numbers, make sure num1 is greater than num 2
+#basecase: if num1 is divisible by num2 then num2 is the gcd
+def gcd(num1,num2)
+	if num1 < num2
+		temp = num1
+		num1 = num2
+		num2 = temp
+	end
 
-p num_of_steps(4)
+	if num1 % num2 == 0
+		return num2
+	end
+
+	remainder = num1 % num2 
+	gcd(num2, remainder)
+end
+
+p gcd(1701,3768)

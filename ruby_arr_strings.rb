@@ -201,4 +201,119 @@ def transpose(arr)
 	result
 end
 
-p transpose(arr1)
+#ic1 - return the largest profit
+#make sure to buy before sell
+#think about negative values - it's not max difference, it's max profit
+
+#O(n^2)
+# def apple_stocks(arr)
+# 	max_diff = 0
+# 	for i in 0..arr.length-2
+# 		for j in i+1..arr.length-1
+# 			if max_diff < (arr[j] - arr[i])
+# 				max_diff = (arr[j] - arr[i])
+# 			end
+# 		end
+# 	end
+# 	max_diff
+# end
+
+
+def apple_stocks(arr)
+	max_diff = 0
+	min = arr[0]
+	for i in 0..arr.length-1
+		if arr[i] < min
+			min = arr[i]
+		end
+		if (arr[i] - min) > max_diff
+			max_diff = (arr[i] - min)
+		end
+	end
+	max_diff
+end
+
+#ic2 - list of products, without current index
+#account for zeros, no division
+#iterate through twice
+
+def products(arr)
+	products = []
+	product = 1
+	for i in 0..arr.length-1
+		products[i] = product
+		product = product * arr[i]
+	end
+	i = arr.length - 1
+	product = 1
+	while i >= 0
+		products[i] = products[i] * product
+		product = arr[i] * product
+		i -= 1
+	end
+	products
+end
+
+#ic3 - highest product of 3 integers
+#find 3 highest values, save variables, multiply 3 variables together
+
+def highest_product(arr)
+	first = -1.0/0
+	second = -1.0/0
+	third = -1.0/0
+	for i in 0..arr.length-1
+		element = arr[i]
+		if element >= first
+			first = element
+		elsif element > second
+			second = element
+		elsif element > third
+			third = element
+		end
+	end
+	first * second * third
+end
+
+#ic4 - merge overlapping intervals
+
+def merge_overlap(arr)
+	sorted = arr.sort_by {|e| [e[0]]}
+	p sorted
+	merged = []
+	end_time = 0
+	for i in 0..sorted.length-1
+		if sorted[i][0] > end_time
+			merged << [sorted[i][0], sorted[i][1]]
+			end_time = sorted[i][1]
+		elsif sorted[i][0] <= end_time && sorted[i][1] > end_time 
+			merged.last[1] = sorted[i][1]
+			end_time = sorted[i][1]
+		end
+	end
+	merged
+end
+
+#ic5 - coin combinations
+#try all combinations by recursively choosing each coin 0 to x amount of times until amount is zero
+#basecases: have finished iterating through array, remainder == 0
+#return ways
+def change(amount, coin_arr, index)
+	if amount == 0
+		return 1
+	end
+	if index >= coin_arr.length
+		return 0
+	end
+
+	amount_with_coin = 0
+	ways = 0
+
+	while amount_with_coin <= amount
+		remainder = amount - amount_with_coin
+		ways += change(remainder, coin_arr, index+1)
+		amount_with_coin += coin_arr[index]
+	end
+	ways
+end
+
+p change(4,[1,2,3],0)

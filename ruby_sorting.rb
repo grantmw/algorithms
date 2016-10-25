@@ -124,55 +124,55 @@ puts Benchmark.measure { bubble_sort(unsorted) }
 puts Benchmark.measure { selection_sort(unsorted) }
 puts Benchmark.measure { insertion_sort(unsorted) }
 
-    a = ["{","[","(",")","]","}"]
-    if a.length % 2 != 0
-        puts "NO"
-        next
-    end
-    left = []
-    right = []
-    mid = (a.length / 2) - 1
-    for i in 0..a.length-1
-        if i <= mid
-            left << a[i]
-        else
-            right << a[i]
-        end
-    end
-    for i in 0..right.length-1
-        if right[i] == ")"
-            right[i] = "("
-        elsif right[i] == "]"
-            right[i] = "["
-        elsif right[i] == "}"
-            right[i] = "{"
-        end
-    end
-    if left != right.reverse
-        puts "NO"
-        next
-    else
-        puts "YES"
-        next
-    end
-    count = 0
-    a.each do |br|
-        if (br == "(") || (br == "[") || (br == "{")
-            count += 1
-        else
-            count -= 1
-        end
-        if count < 0
-            puts "No"
-            next
-        end
-    end
+    # a = ["{","[","(",")","]","}"]
+    # if a.length % 2 != 0
+    #     puts "NO"
+    #     next
+    # end
+    # left = []
+    # right = []
+    # mid = (a.length / 2) - 1
+    # for i in 0..a.length-1
+    #     if i <= mid
+    #         left << a[i]
+    #     else
+    #         right << a[i]
+    #     end
+    # end
+    # for i in 0..right.length-1
+    #     if right[i] == ")"
+    #         right[i] = "("
+    #     elsif right[i] == "]"
+    #         right[i] = "["
+    #     elsif right[i] == "}"
+    #         right[i] = "{"
+    #     end
+    # end
+    # if left != right.reverse
+    #     puts "NO"
+    #     next
+    # else
+    #     puts "YES"
+    #     next
+    # end
+    # count = 0
+    # a.each do |br|
+    #     if (br == "(") || (br == "[") || (br == "{")
+    #         count += 1
+    #     else
+    #         count -= 1
+    #     end
+    #     if count < 0
+    #         puts "No"
+    #         next
+    #     end
+    # end
     
     
-    if count != 0
-        puts "No"
-        next
-    elsif count == 0
-        puts "YES"
-        next
-    end
+    # if count != 0
+    #     puts "No"
+    #     next
+    # elsif count == 0
+    #     puts "YES"
+    #     next
+    # end
