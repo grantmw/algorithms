@@ -316,4 +316,156 @@ def change(amount, coin_arr, index)
 	ways
 end
 
-p change(4,[1,2,3],0)
+def is_sub_array?(arr1, arr2)
+	if arr1.length > arr2.length
+		arr = arr1
+		sub = arr2
+	else
+		arr = arr2
+		sub = arr1
+	end
+	consecutive = 0
+	for i in 0..arr.length-1
+
+		if arr[i] == sub[consecutive]
+			consecutive += 1
+		else
+			consecutive = 0
+		end
+		if consecutive == sub.length-1
+			return true
+		end
+	end
+	false
+end
+
+#dynamic programming: use matrix to iterate through str1 and compare it to single letter of str2
+#if letters match take the count of the substring at letter before string one and string two + 1, if they don't, take highest number from previous iteration of str1 or str2
+def common_longest_substring(str1, str2)
+	x = str1.length
+	y = str2.length 
+
+	matrix = Array.new(x+1){Array.new(y+1,0)} #how to create a matrix in ruby
+
+	for i in 0..x-1
+		for j in 0..y-1
+			if str1[i] == str2[j]
+				matrix[i+1][j+1] = matrix[i][j] + 1
+			else
+				matrix[i+1][j+1] = [matrix[i+1][j], matrix[i][j+1]].max
+			end
+		end
+	end
+	matrix.last.last
+end
+
+
+
+#similar, but set count to zero if characters do not match, keep track of highest 
+def longest_consecutive_substring(str1,str2)
+	rows = str1.length
+	cols = str2.length 
+
+	matrix = Array.new(rows+1){Array.new(cols+1,0)}
+
+	consecutive_count = 0
+	for i in 0..rows-1
+		for j in 0..cols-1
+			if str1[i] == str2[j]
+				previous_iteration = matrix[i][j]
+				matrix[i+1][j+1] = previous_iteration + 1
+				if previous_iteration + 1 > consecutive_count
+					consecutive_count = previous_iteration + 1
+				end
+			else
+				matrix[j+1][i+1] = 0
+			end
+		end
+	end
+	consecutive_count
+end
+
+#HR: Palindrome Index - Return index of character that could be removed to create palindrome
+#start from begining and end, while deletion count > 0 and start>end
+#if char match, move on, if not, move pointer whose next inside char has a match
+def palindrome_index(string)
+	check = ->(str){
+		deletions = 0
+		left = 0
+		right = str.length-1
+		d_index = 0
+		while left < right #&& deletions < 2
+			if str[left] == str[right]
+				left += 1
+				right -= 1
+			elsif str[left + 1] == str[right] #delete left 
+				deletions += 1
+				d_index = left
+				left += 1
+			elsif str[left] == str[right - 1] #delete right
+				deletions += 1
+				d_index = right
+				right -= 1
+			else
+				return -1
+			end
+		end
+		if deletions == 0
+			return -1
+		else
+			return d_index
+		end
+	}
+	if check.call(string) == -1 && check.call(string.reverse) == -1
+        return -1
+    elsif check.call(string) != -1 && check.call(string.reverse) != -1
+        return check.call(string)
+    elsif check.call(string.reverse) != -1 && check.call(string) == -1
+        return (string.length - 1) - check.call(string.reverse)
+    elsif check.call(string.reverse) == -1 && check.call(string) != -1
+        return check.call(string)
+    end
+end
+#testcase: cwnnwcw - if method returns -1, check if the reverse is also -1
+
+#1.9 - using is_substring once, check if a string is a rotation of another
+#is substring - keep track of a count, if count == length of string, return true
+#
+
+def is_substring(str1, str2)
+	if str2.length > str1.length
+		sub = str1
+		str = str2
+	else
+		sub = str2
+		str = str1
+	end
+	p sub
+	p str
+	consecutive = 0
+	for i in 0..str.length-1
+		if str[i] == sub[consecutive]
+			consecutive += 1
+		else
+			consecutive = 0
+		end
+		if consecutive == sub.length #has to come after consecutive is incremented
+			return true
+		end
+	end
+	false
+end
+
+def is_rotation?(str1, str2)
+	concat = str1 + str1
+	p concat
+
+	if is_substring(concat, str2)
+		true
+	else
+		false
+	end
+end
+
+
+

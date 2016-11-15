@@ -266,12 +266,83 @@ class BinaryTree
 	end
 	#alternative: inorder traversal and then see if the values are in order
 
-	#4.8
+	#4.7
+	def creation_arrays
+		
+	end
 
+	#4.8
 	def first_ancestor(node1, node2)
 		@root.first_ancestor(@root, node1, node2)
 	end
+
+	#4.10
+	#unique if preorder AND inorder are the same
+	def is_subtree?(tree1, tree2 = self)
+		in1 = []
+		pre1 = []
+		in2 = []
+		pre2 = []
+		inorder = ->(root, arr) {
+			if root.left_node
+				inorder.call(root.left_node, arr)
+			end
+			arr << root.val
+			if root.right_node
+				inorder.call(root.right_node, arr)
+			end
+		}		
+		preorder = ->(root, arr) {
+			arr << root.val
+			if root.left_node
+				preorder.call(root.left_node, arr)
+			# else
+			# 	arr << "X"
+			end
+			if root.right_node
+				preorder.call(root.right_node, arr)
+			# else
+			# 	arr << "X"
+			end
+		}
+		inorder.call(tree1.root, in1)
+		preorder.call(tree1.root, pre1)
+		inorder.call(tree2.root, in2)
+		preorder.call(tree2.root, pre2)
+
+		is_subarray= ->(arr1, arr2) {
+			if arr1.length > arr2.length
+				arr = arr1
+				sub = arr2
+			else
+				arr = arr2
+				sub = arr1
+			end
+			consecutive = 0
+			for i in 0..arr.length-1
+				if consecutive == sub.length-1
+					return true
+				end
+
+				if arr[i] == sub[consecutive]
+					consecutive += 1
+				else
+					consecutive = 0
+				end
+			end
+			false
+		}
+
+		if is_subarray.call(in1, in2) && is_subarray.call(pre1,pre2)
+			true
+		else
+			false
+		end		
+	end
+	#opt: can add in character where nodes point to nil, this way you can use only preorder
 end
+
+
 
 first = BinaryTree.new(10)
 first.insert(12)
@@ -282,11 +353,21 @@ first.insert(9)
 first.insert(7)
 first.insert(14)
 first.inorder_display
-p first.first_ancestor(first.root.right_node.left_node, first.root.right_node.right_node.left_node)
-#first.level_order_display
-# first.linked_list_levels
-# p first.root
-# p first.root.left_node
-# p first.root.left_node.right_node
-# p first.root
+first.preorder_display
+
+second = BinaryTree.new(12)
+second.insert(11)
+second.insert(20)
+second.insert(15)
+second.insert(14)
+second.insert(9)
+second.insert(10)
+second.insert(1)
+second.insert(2)
+second.inorder_display
+second.preorder_display
+
+p first.is_subtree?(second)
+
+
 

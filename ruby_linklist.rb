@@ -278,26 +278,4 @@ class LinkList
 
 	end
 end
-# driver test for 2.5
-# test2 = LinkList.new(6).push(7).push(8).push(9)
-# test2.display
-# test3 = LinkList.new(1).push(2).push(3)
-# test3.display
-# LinkList.sum(test2,test3)
 
-a = Node.new(11)
-b = Node.new(12)
-c = Node.new(13)
-test1 = LinkList.new(1)
-test1.push(2)
-test1.push(3)
-test2 = LinkList.new(4)
-test2.push(5)
-test2.push(6)
-
-test1.add(a).add(b).add(c)
-test2.add(a)
-
-test1.display
-test2.display
-p LinkList.find_intersection(test1,test2)
