@@ -430,7 +430,6 @@ end
 
 #1.9 - using is_substring once, check if a string is a rotation of another
 #is substring - keep track of a count, if count == length of string, return true
-#
 
 def is_substring(str1, str2)
 	if str2.length > str1.length
